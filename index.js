@@ -41,7 +41,7 @@ client.setJailer = (guildId, channel) => {
 client.setJailee = (guildId, channel) => {
     if (channel.guild.id !== guildId) { throw "Channel is not in this server!" }
     if (!client.jails[guildId]) { client.jails[guildId] = {} }
-    if (client.jails[guildId].jaileeCollector) { client.jails[guildId].jaileeCollector.close() }
+    if (client.jails[guildId].jaileeCollector) { client.jails[guildId].jaileeCollector.stop() }
     client.jails[guildId].jaileeCollector = channel.createMessageCollector({filter: ( m => echoRegex.test(m.content))})
     client.jails[guildId].jaileeChannel = channel
     console.log('jailee channel set to #' + channel.name)
