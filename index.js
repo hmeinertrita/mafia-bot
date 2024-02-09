@@ -30,7 +30,7 @@ client.setJailer = (guildId, channel) => {
                 .setTitle('_The Jailer says:_ ')
                 .setDescription(content)
             await client.jails[guildId].jaileeChannel.send({ embeds: [embed] })
-            console.log('jailer ' + m.member.displayName + ' says: ' + content)
+            console.log('jailer ' + m.member.nickname + ' says: ' + content)
         }
         else {
             await m.reply('Jailee channel is not set! Please use `/jailee` and try again.')
@@ -41,7 +41,7 @@ client.setJailer = (guildId, channel) => {
 client.setJailee = (guildId, channel) => {
     if (channel.guild.id !== guildId) { throw "Channel is not in this server!" }
     if (!client.jails[guildId]) { client.jails[guildId] = {} }
-    if (client.jails[guildId].jaileeCollector) { client.jaileeCollector.close() }
+    if (client.jails[guildId].jaileeCollector) { client.jails[guildId].jaileeCollector.close() }
     client.jails[guildId].jaileeCollector = channel.createMessageCollector({filter: ( m => echoRegex.test(m.content))})
     client.jails[guildId].jaileeChannel = channel
     console.log('jailee channel set to #' + channel.name)
@@ -50,10 +50,10 @@ client.setJailee = (guildId, channel) => {
         const content = m.content.replace(/^\{\{/, '').replace(/\}\}$/, '')
         if (client.jails[guildId].jailerChannel) {
             const embed = new MessageEmbed()
-                .setTitle('_' + m.member.displayName + ' says:_')
+                .setTitle('_' + m.member.nickname + ' says:_')
                 .setDescription(content)
             await client.jails[guildId].jailerChannel.send({ embeds: [embed] })
-            console.log('jailee ' + m.member.displayName + ' says: ' + content)
+            console.log('jailee ' + m.member.nickname + ' says: ' + content)
         }
         else {
             await m.reply('Jailer channel is not set! Please use `/jailer` and try again.')
