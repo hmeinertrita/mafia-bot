@@ -1,4 +1,4 @@
-name: Start Oracle
+name: Deploy to Oracle
 on:
   push:
     branches: [ master ]
@@ -6,7 +6,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - name: SSH to deploy
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -14,5 +13,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.ORACLE_SSH_KEY }}
           script: |
-            cd mafia-bot
-            node index
+            BASE_DIR=~/mafia-bot
+            PM2_NAME=bot-process
+            cd $BASE_DIR
+            git pull github
+            pm2 reload all
